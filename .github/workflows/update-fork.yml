@@ -22,7 +22,7 @@ jobs:
       - name: Merge Upstream into Fork
         run: |
           git checkout main
-          git merge upstream/master || exit 1  # マージ失敗時は終了
+          git merge upstream/master --allow-unrelated-histories || exit 1  # マージ失敗時は終了
 
       - name: Push Changes
         run: |
