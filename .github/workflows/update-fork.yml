@@ -2,7 +2,7 @@ name: Update Fork
 
 on:
   schedule:
-    - cron: "0 5 * * *"  # 毎日5時に実行
+    - cron: "0 20 * * *"  # 毎日JST5時に実行
 
 jobs:
   update-fork:
@@ -12,6 +12,11 @@ jobs:
         uses: actions/checkout@v3
         with:
           persist-credentials: false  # 必須: GitHubトークンを自動で使用しないようにする
+
+      - name: Set Git Identity
+        run: |
+          git config user.email "github-actions@github.com"
+          git config user.name "GitHub Actions Bot"
 
       - name: Add Upstream
         run: git remote add upstream https://github.com/KC3Kai/kancolle-replay.git
