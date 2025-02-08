@@ -299,7 +299,7 @@ window.CMP_FLEET = {
 				FLEET_MODEL.fleetCurrent = this;
 				COMMON.global.fleetEditorOpen(this.fleet);
 				this.$refs.editor.appendChild(document.getElementById('divFleetEditor'));
-				setTimeout(() => this.$refs.header.scrollIntoViewIfNeeded(),1);
+				setTimeout(() => this.$refs.header.scrollIntoView({ behavior: 'smooth', block: 'center' }), 1);
 			} else {
 				FLEET_MODEL.fleetCurrent = null;
 				COMMON.global.fleetEditorClose();
@@ -450,7 +450,7 @@ var UI_FLEETEDITOR = Vue.createApp({
 
 			if(this.fleet.isPlayer || this.fleet.isSupport) {
 				if(this.initialMorale) ship.morale = this.initialMorale;
-        if(this.preserveEquip) {
+        if(this.preserveEquip && ship.equips) {
 					shipPrev.equips.forEach((eq, i) => {
 						ship.equips[i] = eq;
 					});
