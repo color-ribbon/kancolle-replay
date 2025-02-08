@@ -6364,6 +6364,26 @@ var EQDATA = {
 		ASW: 6,
 		LOS: 4,
 	},
+	553: {
+		name: '10cm Twin High-angle Gun Mount Kai',
+		nameJP: '10cm連装高角砲改',
+		added: '2025-01-28',
+		type: MAINGUNS, image: 16,
+		FP: 2,
+		AA: 7,
+		AR: 1,
+		ACC: 1,
+		RNG: 1,
+	},
+	554: {
+		name: 'Type 97 Torpedo Bomber Kai (Northeastern Air Group)',
+		nameJP: '九七式艦攻改(北東海軍航空隊)',
+		added: '2025-01-31',
+		type: TORPBOMBER,
+		TP: 6,
+		ASW: 5,
+		LOS: 2,
+	},
 	1501: {
 		name: '5inch Single Cannon',
 		nameJP: '5inch単装砲',
@@ -8198,6 +8218,7 @@ var LBASDATA = {
 	550: { distance: 3, cost: 2 },
 	551: { distance: 4, cost: 3 },
 	552: { distance: 4, cost: 4 },
+	554: { distance: 4, cost: 5 },
 };
 
 
