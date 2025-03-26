@@ -301,6 +301,7 @@
 	"yamato_special_2": "大和タッチ (2隻)",
 	"submarine_special": "潜水艦隊攻撃",
 	"richelieu_special": "Richelieuタッチ",
+	"qe_special": "Queen Elizabethタッチ",
 	"use_provisional_B-25": "深海棲艦による跳躍爆撃にはB-25のボーナスを仮適用",
 	"cf_airstrike_base_mods": "連合艦隊の航空戦における補正値",
 	"damage_base": "ダメージ(基礎: {0})",
@@ -859,7 +860,10 @@
 		"Summer 2024 E5": "2024夏 E5",
 		"Spring 2025 E1": "2025春 E1",
 		"Spring 2025 E2": "2025春 E2",
-		"Spring 2025 E3": "2025春 E3"
+		"Spring 2025 E3": "2025春 E3",
+		"Spring 2025 E4": "2025春 E4",
+		"Spring 2025 E5": "2025春 E5",
+		"Spring 2025 E6": "2025春 E6"
 	},
 	"sim_error": {
 		"bad_data": "データの形式が正しくありません",

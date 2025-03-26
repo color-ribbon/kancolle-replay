@@ -265,6 +265,7 @@
 	"yamato_special_2": "Yamato Special (2-ship)",
 	"submarine_special": "Submarine Special Attack",
 	"richelieu_special": "Richelieu Special Attack",
+	"qe_special": "Queen Elizabeth Special Attack",
 	"use_provisional_B-25": "Use provisional B-25 bonuses for Abyssal skip bomb airstrikes",
 	"cf_airstrike_base_mods": "Combined Fleet Airstrike Base Mods",
 	"damage_base": "Damage (Base {0})",
@@ -823,7 +824,10 @@
 		"Summer 2024 E5": "Summer 2024 E5",
 		"Spring 2025 E1": "Spring 2025 E1",
 		"Spring 2025 E2": "Spring 2025 E2",
-		"Spring 2025 E3": "Spring 2025 E3"
+		"Spring 2025 E3": "Spring 2025 E3",
+		"Spring 2025 E4": "Spring 2025 E4",
+		"Spring 2025 E5": "Spring 2025 E5",
+		"Spring 2025 E6": "Spring 2025 E6"
 	},
 	"sim_error": {
 		"bad_data": "Bad format data",
