@@ -865,6 +865,11 @@ var UI_MAIN = Vue.createApp({
 			SIM.cancelRun = true;
 		},
 		
+		showNotice: function(txt) {
+			this.noticeTxt = txt;
+			let n = ++this.showNoticeCount;
+			setTimeout(() => n == this.showNoticeCount && (this.showNoticeCount = 0), 1000);
+		},
 		onclickCopyResults: function(typeString) {
 			let t = this.$i18n.t;
 			let txt = '';
@@ -956,17 +961,13 @@ ${t('results.buckets')}:	${this.resultsBucketTPPer}`;
 				}
 			}
 			navigator.clipboard.writeText(txt);
-			this.noticeTxt = t('copied_to_clipboard');
-			let n = ++this.showNoticeCount;
-			setTimeout(() => n == this.showNoticeCount && (this.showNoticeCount = 0), 1000);
+			this.showNotice(t('copied_to_clipboard'));
 		},
 		onclickScreenShot: function() {
 			this.$refs.divResults.style.backgroundColor = window.getComputedStyle(document.body).backgroundColor;
 			html2canvas(this.$refs.divResults).then(canvas => {
 				canvas.toBlob(blob => navigator.clipboard.write([new ClipboardItem({ 'image/png':blob })]));
-				this.noticeTxt = this.$i18n.t('copied_to_clipboard');
-				let n = ++this.showNoticeCount;
-				setTimeout(() => n == this.showNoticeCount && (this.showNoticeCount = 0), 1000);
+				this.showNotice(this.$i18n.t('copied_to_clipboard'));
 				
 				let filename = 'KanColle_Sortie_Simulator_Statistics_' + (new Date).toISOString().slice(0,19).replace(/:/g,'-') + '.png';
 				let a = window.document.createElement('a');
@@ -2491,6 +2492,10 @@ document.body.onunload = function() {
 	if (UI_MAIN.canSave) {
 		localStorage.sim2 = JSON.stringify(CONVERT.uiToSave(UI_MAIN));
 	}
+}
+
+COMMON.global.showNotice = function(txt) {
+	UI_MAIN.showNotice(txt);
 }
 
 COMMON.UI_MAIN = UI_MAIN; //debug

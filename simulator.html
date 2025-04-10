@@ -23,7 +23,7 @@
 	<script src="reader/lz-string.js"></script>
 	<script src="js/simulator-ui/common.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/lzma/src/lzma_worker.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+	<script src="js/html2canvas-fix.min.js"></script>
 </head>
 <body style="display:none">
 	<div id="divMain">
@@ -1214,11 +1214,12 @@
 			<div class="importOther">
 				<div><input type="button" :value="$t('clear_all')" @click="onclickReset"/></div>
 				<div class="importBottom"><input type="button" :value="$t('export_deckbuilder')" @click="onclickExportDb"/></div>
+				<svg @click="onclickScreenShot" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width: 22px;cursor: pointer;fill: #9b9b9b;margin-left: 4px;"><path d="M20,4H16.83L15,2H9L7.17,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6A2,2 0 0,0 20,4M20,18H4V6H8.05L9.88,4H14.12L15.95,6H20V18M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15Z" /></svg>
 			</div>
 		</div>
 		
 		<div v-for="keyS in ['ships','shipsEscort']"><div v-if="fleet[keyS]" v-show="keyS=='ships' || fleet.combined">
-			<div class="shipWrap">
+			<div class="shipWrap" ref="divShipWrap">
 				<div v-for="ship in fleet[keyS]" :class="{shipMain:1,even:ship.ind%2}" v-show="ship.ind<numShipShow">
 					<div class="shipHeader"><img :src="'assets/stats/F' + (ship.ind+1) + '.png'" /></div>
 					<div class="shipName">
@@ -1370,7 +1371,7 @@
 				<label>cond値 初期値:</label>
 				<input type="number" v-model.number="initialMorale" min="0" max="100" style="width: 4em"/>
 			</div>
-		</div>
+	  </div>
 	</div>
 	<div v-show="showKC3ProfileHelp">
 		<vmodal :active="showKC3ProfileHelp" @vclose="showKC3ProfileHelp=false">
@@ -1389,7 +1390,7 @@
 	
 	<template id="tmpLBASEditor">
 		<div class="fleetEditor">
-			<div class="shipWrap">
+			<div class="shipWrap" ref="divShipWrap">
 				<div v-for="base in bases" :class="{shipMain:1,even:base.ind%2}">
 					<div class="equipWrap">
 						<div v-for="equip in base.equips">
@@ -1433,6 +1434,7 @@
 			</div>
 		</div>
 		<div class="fleetEditorAddl">
+			<svg @click="onclickScreenShot" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width: 22px;cursor: pointer;fill: #9b9b9b;margin-left: 4px;"><path d="M20,4H16.83L15,2H9L7.17,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6A2,2 0 0,0 20,4M20,18H4V6H8.05L9.88,4H14.12L15.95,6H20V18M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15Z" /></svg>
 			<input type="button" :value="$t('show_additional_stats_lbas')" @click="onclickAdditionalStats"/>
 		</div>
 	</template>
