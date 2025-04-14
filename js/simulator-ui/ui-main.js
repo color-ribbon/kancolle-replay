@@ -997,58 +997,23 @@ ${t('results.buckets')}:	${this.resultsBucketTPPer}`;
 		
 		onclickLoadURL: async function() {
 			console.log(this.tinyURL);
-			const prefix = 'https://tinyurl.com/';
+			// https://kc3kai.github.io/kancolle-replay/?s=rj1Hxcc5znu
+			const prefix = 'https://kc3kai.github.io/kancolle-replay/?s=';
 
 			if(!this.tinyURL.startsWith(prefix)) {
 				this.loadURLNotice = `URL が ${prefix} 形式ではありません`;
 				console.log(`URL が ${prefix} 形式ではありません`);
 				return;
 			}
-			try {
-				// API 呼び出し (GET)
-				const response = await fetch(this.tinyURL);
-				
-				if (!response.ok) {
-					this.loadURLNotice = `短縮 URL が正しくありません`;
-					console.log(`短縮 URL が正しくありません`);
-					return;
-				}
-		
-				// レスポンスのテキストを取得
-				const htmlText = await response.text();
 
-				// DOMParser を使って HTML をパース
-				const parser = new DOMParser();
-				const doc = parser.parseFromString(htmlText, 'text/html');
-
-				// <a id="long-link"> タグを取得
-				const linkElement = doc.querySelector('#long-link');
-
-				if (linkElement && linkElement.href) {
-					// href 属性を取得
-					console.log('Extracted URL:', linkElement.href);
-					const kc3kai_prefix = 'https://kc3kai.github.io/kancolle-replay/simulator.html#backup=';
-					
-					if(!linkElement.href.startsWith(kc3kai_prefix)) {
-						this.loadURLNotice = `URL が ${kc3kai_prefix} 形式ではありません`;
-						console.log(`URL が ${kc3kai_prefix} 形式ではありません`);
-						return;
-					}
-
-					const replaced_url = linkElement.href.replace('kc3kai', 'color-ribbon');
-					// 元の URL にリダイレクト
-					window.location.href = replaced_url;
-					window.location.reload();
-				} else {
-					this.loadURLNotice = 'URLの展開に失敗しました';
-					console.log(`URLの展開に失敗しました`);
-					return;
-				}
-		
-			} catch (error) {
-				this.loadURLNotice = 'URLの展開に失敗しました: ' + error;
-				console.log(`URLの展開に失敗しました` + error);
-			}
+			const replaced_url = this.tinyURL.replace(
+				prefix.substring(0, prefix.lastIndexOf("/") + 1),
+				window.location.href.substring(0, window.location.href.lastIndexOf("/") + 1)
+			);
+			// 元の URL にリダイレクト
+			window.location.href = replaced_url;
+			console.log(replaced_url);
+			// window.location.reload();
 		},
 		
 		initSimImport: function(dataInput) {

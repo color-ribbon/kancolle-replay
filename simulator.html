@@ -77,7 +77,9 @@
 				<input type="button" :value="$t('import_export_deckbuilder_format')" @click="onclickDeckbuilder"/>&nbsp;
 			</div>
 			<div>
-				<label>本家共有URL：</label><input type="text" placeholder="https://tinyurl.com/..." v-model="tinyURL" />
+				<label>本家共有URL：</label>
+				<input type="text" placeholder="https://kc3kai.github.io/kancolle-replay/?s=..." v-model="tinyURL"
+				style="margin-right: 1ex; width: 40ex;" />
 				<button @click="onclickLoadURL">展開する</button>
 				<div v-if="loadURLNotice">{{loadURLNotice}}</div>
 			</div>
@@ -597,14 +599,14 @@
 			<div id="divSimStatsButtons">
 				<input type="button" :value="'&#9654; ' + $t('go')" :disabled="!canSim" @click="onclickGo"/>
 				<input type="button" :value="$t('clear')" v-show="results.active&&canSim" @click="onclickClear"/>
+				<div style="display:flex;gap:10px" v-show="!canSim && showProgress">
+					<div class="progressBarOuter"><div class="progressBarInner" :style="{width:simProgressPercent+'%'}"></div></div>
+					<div><input type="button" :value="'&#9724; ' + $t('stop')" v-show="!canSim" :disabled="canSim" @click="onclickCancel"/></div>
+					<div>({{simProgressNum}}/{{simProgressTotal}})</div>
+				</div>
 			</div>
 		</div>
 		<div id="divResultsOuter">
-			<div style="display:flex;gap:10px" v-show="!canSim && showProgress">
-				<div class="progressBarOuter"><div class="progressBarInner" :style="{width:simProgressPercent+'%'}"></div></div>
-				<div><input type="button" :value="'&#9724; ' + $t('stop')" v-show="!canSim" :disabled="canSim" @click="onclickCancel"/></div>
-				<div>({{simProgressNum}}/{{simProgressTotal}})</div>
-			</div>
 			<div id="divResultsErrors">
 				<div v-for="error in results.errors">{{$t('sim_error.' + error.key, error.args)}}</div>
 			</div>
