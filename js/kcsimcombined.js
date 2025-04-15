@@ -1375,6 +1375,7 @@ function sim12vs12(type,F1,F1C,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing
 			if (alive1.length+subsalive1.length > 0 && alive2.length+subsalive2.length+alive2C.length+subsalive2C.length > 0) {
 				LBASwaves[i].planecount = LBASwaves[i]._currentSlots.slice();
 				compareAP(LBASwaves[i],F2,'isPlane',true);
+				F2C.AS = F2.AS;
 				var LBAPI = {api_plane_from:[[-1],[-1]],api_stage1:null,api_stage2:null,api_stage3:null};
 				LBASPhase(LBASwaves[i],alive2.concat(alive2C),subsalive2.concat(subsalive2C),false,(C)?LBAPI:undefined);
 				removeSunk(alive2); removeSunk(alive2C);
