@@ -1302,7 +1302,7 @@
 								</div>
 								<div class="equipOptions">
 									<img src="assets/items/0.png" />
-									<img class="equipIcon" :src="'assets/items/' + equip.imgName + '.png'" @dragstart="ondragstartEquip(ship,equip,keyS)" @dragover.prevent="" @drop.prevent="ondropEquip(ship,equip)" @dragend="ondragendEquip"/>
+									<img class="equipIcon" :src="'assets/items/' + equip.imgName + '.png'" @dragstart="ondragstartEquip(ship,equip,keyS)" @dragover.prevent="" @drop.prevent="ondropEquip($event,ship,equip)" @dragend="ondragendEquip"/>
 									<input class="equipCarry" type="number" v-model.number="ship.slots[equip.ind]" min="0" max="999" :title="$t('slot_size')" @change="onchangeStat($event,ship.slots,equip.ind)"/>
 									<select :class="{equipRank:1,rankBlue:equip.rank&&equip.rank<4,rankGold:equip.rank>=4}" v-show="equip.mstId && equip.isPlane" v-model.number="equip.rank" :title="$t('proficiency')">
 										<option value="0"></option>
@@ -1402,7 +1402,7 @@
 							</div>
 							<div class="equipOptions">
 								<img src="assets/items/0.png" />
-								<img class="equipIcon" :src="'assets/items/' + equip.imgName + '.png'" @dragstart="ondragstartEquip(base,equip)" @dragover.prevent="" @drop.prevent="ondropEquip(base,equip)" @dragend="ondragendEquip"/>
+								<img class="equipIcon" :src="'assets/items/' + equip.imgName + '.png'" @dragstart="ondragstartEquip(base,equip)" @dragover.prevent="" @drop.prevent="ondropEquip($event,base,equip)" @dragend="ondragendEquip"/>
 								<input class="equipCarry" type="number" v-model.number="base.slots[equip.ind]" min="0" max="999" :title="$t('slot_size')" @change="onchangeStat($event,base.slots,equip.ind)"/>
 								<select :class="{equipRank:1,rankBlue:equip.rank&&equip.rank<4,rankGold:equip.rank>=4}" v-show="equip.mstId && equip.isPlane" v-model.number="equip.rank" :title="$t('proficiency')">
 									<option value="0"></option>

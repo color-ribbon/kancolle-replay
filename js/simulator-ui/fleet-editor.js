@@ -640,14 +640,23 @@ var UI_FLEETEDITOR = Vue.createApp({
 		onkeypressEquip: METHODS_COMMON.methods.onkeypressEquip,
 		onclickDeleteEquip: METHODS_COMMON.methods.onclickDeleteEquip,
 		ondragstartEquip: METHODS_COMMON.methods.ondragstartEquip,
-		ondropEquip: function(shipTo,equipTo) {
+		ondropEquip: function(event,shipTo,equipTo) {
 			if (!this.isDraggingEquip) return;
+
 			let shipFrom = this.fleet[this.selectedShipsProp][this.selectedShipInd];
 			let equipFrom = shipFrom.equips[this.selectedEquipInd];
-			shipFrom.equips[equipFrom.ind] = equipTo;
-			shipTo.equips[equipTo.ind] = equipFrom;
-			equipFrom.ind = equipTo.ind;
-			equipTo.ind = this.selectedEquipInd;
+			// console.log(equipFrom)
+
+			if (event.ctrlKey) {
+				shipTo.equips[equipTo.ind] = FLEET_MODEL.getDefaultEquip(equipFrom.mstId,shipTo,equipTo.ind);
+				shipTo.equips[equipTo.ind].level = equipFrom.level;
+			}
+			else {
+				shipFrom.equips[equipFrom.ind] = equipTo;
+				shipTo.equips[equipTo.ind] = equipFrom;
+				equipFrom.ind = equipTo.ind;
+				equipTo.ind = this.selectedEquipInd;
+			}
 			if (shipTo != shipFrom) {
 				FLEET_MODEL.updateEquipStats(shipTo);
 				FLEET_MODEL.updateEquipStats(shipFrom);
@@ -920,7 +929,7 @@ window.CMP_LBASEDITOR = {
 		onkeypressEquip: METHODS_COMMON.methods.onkeypressEquip,
 		onclickDeleteEquip: METHODS_COMMON.methods.onclickDeleteEquip,
 		ondragstartEquip: METHODS_COMMON.methods.ondragstartEquip,
-		ondropEquip: function(baseTo,equipTo) {
+		ondropEquip: function(event,baseTo,equipTo) {
 			if (!this.isDraggingEquip) return;
 			let baseFrom = this.bases[this.selectedShipInd];
 			let equipFrom = baseFrom.equips[this.selectedEquipInd];
