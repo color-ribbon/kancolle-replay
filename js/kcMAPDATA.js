@@ -1,4 +1,4 @@
-var MAPDATA = {
+window.MAPDATA = {
 	1:{
 		name: 'World 1',
 		maps: {
@@ -2281,7 +2281,7 @@ var MAPDATA = {
 
 //-------------------------------------
 
-var MAPDATA_BGM_HISTORY = {
+window.MAPDATA_BGM_HISTORY = {
 	"": {
 		1: {
 			1: {

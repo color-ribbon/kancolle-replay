@@ -1,6 +1,8 @@
 (() => {
 	
-var CONST = window.COMMON.getConst({
+window.PHASES = {LBAS:0, AIR:1, SUPPORT:2, ASW:3, OPENING_TORPEDO:4, SHELL1:5, SHELL2:6, SHELL3:7, CLOSING_TORPEDO:8,FRIEND:9,NB:10};
+
+window.CONST = window.COMMON.getConst({
 	shipTypeIdToHull: { 1:'DE',2:'DD',3:'CL',4:'CLT',5:'CA',6:'CAV',7:'CVL',8:'FBB',9:'BB',10:'BBV',11:'CV',13:'SS',14:'SSV',15:'AT',16:'AV',17:'LHA',18:'CVB',19:'AR',20:'AS',21:'CT',22:'AO' },
 
 	numSimDefault: 1000,
@@ -1095,24 +1097,111 @@ var SIM = {
 		
 		this.cancelRun = false;
 		let timeStart = Date.now();
-		let runStep = function() {
-			let numStep = Math.min(CONST.numSimStep,numSim-n);
-			for (let i=0; i<numStep; i++) {
-				this._doSimSortie(dataInput);
-			}
-			n += numStep;
-			if (n >= numSim || this.cancelRun) {
-				this._checkWarningsPostRun(dataInput);
-				callback({ progress: n, progressTotal: numSim, result: this._results, warnings: this._warnings.slice() });
-				let timeTotal = Date.now() - timeStart;
-				console.log('time: ' + (timeTotal/1000) + ' sec');
-				this.cancelRun = false;
-			} else {
+
+		//////////////////////////////
+
+		const workerCount = dataInput.numSimParallel;
+		if(workerCount <= 1) {
+			let runStep = function() {
+				let numStep = Math.min(CONST.numSimStep,numSim-n);
+				for (let i=0; i<numStep; i++) {
+					this._doSimSortie(dataInput);
+				}
+				n += numStep;
+				if (n >= numSim || this.cancelRun) {
+					this._checkWarningsPostRun(dataInput);
+					callback({ progress: n, progressTotal: numSim, result: this._results, warnings: this._warnings.slice() });
+					let timeTotal = Date.now() - timeStart;
+					console.log('time: ' + (timeTotal/1000) + ' sec');
+					this.cancelRun = false;
+				} else {
+					callback({ progress: n, progressTotal: numSim });
+					setTimeout(runStep.bind(this),1);
+				}
+			};
+			setTimeout(runStep.bind(this),1);
+		}
+		else {
+			// console.log("# " + workerCount);
+			let runningWorkers = 0;
+
+			const handleWorkerMessage = (e) => {
+				const res = JSON.parse(e.data);
+				// console.log(res);
+
+				n += res.numStep;
+				if (res._results) {
+					this._checkWarningsPostRun(res.dataInput);
+					this.mergeResults(res._results);
+					e.target.terminate();
+					if(--runningWorkers <= 0) {
+						callback({ progress: n, progressTotal: numSim, result: this._results, warnings: this._warnings.slice() });
+						let timeTotal = Date.now() - timeStart;
+						console.log('time: ' + (timeTotal/1000) + ' sec');
+						this.cancelRun = false;
+						return;
+					}
+				}
 				callback({ progress: n, progressTotal: numSim });
-				setTimeout(runStep.bind(this),1);
+			};
+			
+			let restSteps = numSim;
+			for(let i = 0; restSteps > 0; i++) {
+				const numStep = Math.ceil(restSteps / (workerCount - i));
+				restSteps -= numStep;
+				// console.log(numStep + " " + restSteps);
+
+				const worker = new Worker('js/sim-worker.js?v=' + Date.now());
+				worker.onmessage = handleWorkerMessage;
+				worker.postMessage(JSON.stringify({
+					dataInput, numStep, EQUIPBONUSDATA
+				}));
+				// console.log(dataInput);
+				runningWorkers++;
 			}
 		}
-		setTimeout(runStep.bind(this),1);
+	},
+	
+	mergeResults: function(add) {
+		const iter = (base, add) => {
+			for (let key in add) {
+				if (!add.hasOwnProperty(key)) continue;
+		
+				const val = add[key];
+		
+				if (typeof val === 'number') {
+					if (typeof base[key] !== 'number') {
+						console.warn(`キー ${key} が数字じゃない`);
+						continue;
+					}
+					base[key] += val;
+				}
+				else if (Array.isArray(val)) {
+					if (!Array.isArray(base[key])) {
+						console.warn(`キー ${key} が配列じゃない`);
+						continue;
+					}
+					for (let i=0; i<val.length; i++) {
+						if (typeof val[i] === 'number') {
+							base[key][i] += val[i];
+						} else {
+							iter(base[key][i], val[i]);
+						}
+					}
+				}
+				else if (typeof val === 'object' && val !== null) {
+					if (typeof base[key] !== 'object' || base[key] === null) {
+						console.warn(`キー ${key} がオブジェクトじゃない`);
+						continue;
+					}
+					iter(base[key], val);
+				}
+				else {
+					console.warn(`キー ${key} は対象外（${typeof val}）`);
+				}
+			}
+		};
+		iter(this._results, add);
 	},
 	
 	runReplay: function(dataInput,dataReplay,noLog) {

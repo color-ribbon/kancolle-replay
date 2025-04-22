@@ -1,4 +1,4 @@
-var ENEMYCOMPS = {
+window.ENEMYCOMPS = {
 	'World 1': {
 		'1-1': {
 			'A': {

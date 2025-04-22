@@ -48,9 +48,6 @@ var MECHANICS_LIST = [
 	{ key: 'enable_AACIRework', name: 'AACI Rework (Sequential Roll + New Priority)' },
 ];
 
-window.PHASES = {LBAS:0, AIR:1, SUPPORT:2, ASW:3, OPENING_TORPEDO:4, SHELL1:5, SHELL2:6, SHELL3:7, CLOSING_TORPEDO:8,FRIEND:9,NB:10}
-
-
 var UI_MAIN = Vue.createApp({
 	data: () => ({
 		fleetFMain: FLEET_MODEL.getBlankFleet({ isPlayer: 1 }),
@@ -202,6 +199,7 @@ var UI_MAIN = Vue.createApp({
 		watchFound: false,
 		isRunningWatch: false,
 		numSim: CONST.numSimDefault,
+		numSimParallel: 1,
 		showProgress: false,
 		simProgressNum: 0,
 		simProgressTotal: 0,
@@ -1188,7 +1186,8 @@ ${t('results.buckets')}:	${this.resultsBucketTPPer}`;
 			}
 		},
 	},
-}).component('vbattle',{
+})
+.component('vbattle',{
 	props: ['battle','candelete','isboss'],
 	data: () => ({
 		
@@ -1284,10 +1283,10 @@ ${t('results.buckets')}:	${this.resultsBucketTPPer}`;
 		},
 	},
 	template: document.getElementById('tmpFleetComps')
-}).component('vfleet',CMP_FLEET).component('vlbaseditor',CMP_LBASEDITOR).use(COMMON.i18n).mount('#divMain');
-
-
-
+})
+.component('vfleet',CMP_FLEET)
+.component('vlbaseditor',CMP_LBASEDITOR)
+.use(COMMON.i18n).mount('#divMain');
 
 var UI_BONUSEDITOR = Vue.createApp({
 	data: () => ({

@@ -595,7 +595,11 @@
 		</div>
 
 		<div id="divSimStats">
-			<i18n-t keypath="simulate_n_times_and_show_stats" scope="global"><template v-slot:inp_num><input type="number" min="0" :max="numSimMax"  step="10000" v-model="numSim"/></template></i18n-t>:
+			<input type="number" min="1" :max="16"  step="1" v-model="numSimParallel"/>並列 
+			<i18n-t keypath="simulate_n_times_and_show_stats" scope="global"><template v-slot:inp_num>
+				<input type="number" min="0" :max="numSimMax"  step="10000" v-model="numSim"/>
+			</template></i18n-t>:
+			<div style="color:#c44; font-size:smaller; font-weight: bold;" v-if="numSimParallel >= 2">警告：CPUに負荷がかかります。この設定は実験的な機能で結果が正しくない可能性があります</div>
 			<div id="divSimStatsButtons">
 				<input type="button" :value="'&#9654; ' + $t('go')" :disabled="!canSim" @click="onclickGo"/>
 				<input type="button" :value="$t('clear')" v-show="results.active&&canSim" @click="onclickClear"/>
