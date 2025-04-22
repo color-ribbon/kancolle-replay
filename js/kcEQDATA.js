@@ -96,7 +96,7 @@ const A_XLGUN = 9;
 //	Pshell, Pnb, Ptorp, Pasw,
 //	ACCshell, ACCnb, ACCtorp, ACCasw,
 //	AAfleet, AAself, EVtorp, LOS, AR
-var EQTDATA = {};
+window.EQTDATA = {};
 EQTDATA[MAINGUNS] = {
 	name: 'Main Gun (S)',
 	image: 1,
@@ -609,7 +609,7 @@ EQTDATA[OTHER] = {
 
 
 //FITDATA[shipclass][eqclass]
-var FITDATA = {
+window.FITDATA = {
 	// 35.6/38, 381,  41,    46P,   46,     16,    51,   30.5   38cm4  46cmK    16N
 	1: { 1: 7, 2: -2, 3: -5, 4: -7, 5: -10, 6: -5, 7: 0, 8:  7, 9:  0, 10: -10, 11:  -5 }, //Kongou
 	2: { 1: 4, 2:  1, 3: -5, 4: -7, 5: -10, 6: -5, 7: 0, 8:  4, 9:  0, 10: -10, 11:  -5 }, //Bismarck
@@ -626,7 +626,7 @@ var FITDATA = {
    13: { 1: 0, 2:  0, 3:  3, 4: -3, 5:  -7, 6:  0, 7: 0, 8:  0, 9:  0, 10:  -7, 11:   0 }, //Nelson
 }
 //night
-var FITDATAN = {
+window.FITDATAN = {
 	// 35.6/38, 381,  41,    46P,   46,     16,    51,   30.5   38cm4  46cmK    16N
 	1: { 1: 7, 2:  0, 3: -5, 4: -7, 5: -10, 6: -5, 7: 0, 8:  7, 9:  0, 10: -10, 11:  -5 }, //Kongou
 	2: { 1: 4, 2:  0, 3: -5, 4: -7, 5: -10, 6: -5, 7: 0, 8:  4, 9:  0, 10: -10, 11:  -5 }, //Bismarck
@@ -643,7 +643,7 @@ var FITDATAN = {
    13: { 1: 0, 2:  0, 3:  3, 4:  0, 5:   0, 6:  0, 7: 0, 8:  0, 9:  0, 10:  -7, 11:   0 }, //Nelson
 }
 
-var EQDATA = {
+window.EQDATA = {
 	0: {
 		name: ''
 	},
@@ -8046,7 +8046,7 @@ var EQDATA = {
 	},
 };
 
-var LBASDATA = {
+window.LBASDATA = {
 	16: { distance: 4, cost: 5 },
 	17: { distance: 5, cost: 6 },
 	18: { distance: 6, cost: 7 },
@@ -8299,7 +8299,7 @@ var LBASDATA = {
 
 
 
-var EQUIPBONUSDATA = { bonuses: [], ctypeToCountry: {} };
+window.EQUIPBONUSDATA = { bonuses: [], ctypeToCountry: {} };
 function initEQDATA(callback) {
 	let xhr = new XMLHttpRequest();
 	xhr.open('GET', 'js/data/mst_slotitem_bonus.json');
@@ -8322,7 +8322,7 @@ function initEQDATA(callback) {
 }
 
 function getBaseId(mid) {
-	var ship = SHIPDATA[mid];
+	window.ship = SHIPDATA[mid];
 	while(ship) {
 		if (!ship.prev) break;
 		mid = ship.prev;

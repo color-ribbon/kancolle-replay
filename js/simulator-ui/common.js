@@ -1,4 +1,4 @@
-var COMMON = {
+window.COMMON = {
 	_const: {
 		CTF: 1,
 		STF: 2,

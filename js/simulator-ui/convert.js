@@ -835,6 +835,7 @@ window.CONVERT = {
 		for (let i=0; i<dataUI.battles.length; i++) nodeIdToNum[dataUI.battles[i].id] = i+1;
 		let dataInput = {
 			numSims: dataUI.numSim,
+			numSimParallel: dataUI.numSimParallel,
 			fleetF: this.uiToSimInputFleet(dataUI.fleetFMain,nodeIdToNum),
 			fleetSupportN: dataUI.useSupportN ? this.uiToSimInputFleet(dataUI.fleetFSupportN) : null,
 			fleetSupportB: dataUI.useSupportB ? this.uiToSimInputFleet(dataUI.fleetFSupportB) : null,

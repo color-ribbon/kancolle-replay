@@ -1,4 +1,4 @@
-var EDGES = {
+window.EDGES = {
 	old: {
 		"World 1-1" : {
 			"1" : [ "Start", "A"],

@@ -5068,7 +5068,7 @@ var SHELL_RANGE_WEIGHTS = {
 	_keysMiss: null,
 	
 	init: async function() {
-		this._data = await fetch('js/data/shell_range_weights.json').then(resp => resp.ok ? resp.json() : null);
+		this._data = await fetch('/js/data/shell_range_weights.json').then(resp => resp.ok ? resp.json() : null);
 	},
 	
 	getRangeKey: function(ranges) {

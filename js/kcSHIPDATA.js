@@ -1,4 +1,4 @@
-var SHIPDATA = {
+window.SHIPDATA = {
     0: {
         name: "",
         image: "Kblank.png"
