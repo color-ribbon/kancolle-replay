@@ -57,6 +57,7 @@ var SIM = {
 	_resultsCountDamecon: false,
 	
 	cancelRun: false,
+	workers: [],
 	simResultPrev: null,
 
 	_addError: function(key,args) {
@@ -1123,7 +1124,6 @@ var SIM = {
 		}
 		else {
 			// console.log("# " + workerCount);
-			let runningWorkers = 0;
 
 			const handleWorkerMessage = (e) => {
 				const res = JSON.parse(e.data);
@@ -1133,8 +1133,14 @@ var SIM = {
 				if (res._results) {
 					this._checkWarningsPostRun(res.dataInput);
 					this.mergeResults(res._results);
-					e.target.terminate();
-					if(--runningWorkers <= 0) {
+					const worker = e.target;
+					worker.terminate();
+					const idx = this.workers.indexOf(worker);
+					if(idx >= 0) {
+						this.workers.splice(idx, 1);
+					}
+
+					if(this.workers.length <= 0) {
 						callback({ progress: n, progressTotal: numSim, result: this._results, warnings: this._warnings.slice() });
 						let timeTotal = Date.now() - timeStart;
 						console.log('time: ' + (timeTotal/1000) + ' sec');
@@ -1145,6 +1151,11 @@ var SIM = {
 				callback({ progress: n, progressTotal: numSim });
 			};
 			
+			while (this.workers.length > 0) {
+				const worker = arr.shift();
+				worker.terminate();
+			}
+
 			let restSteps = numSim;
 			for(let i = 0; restSteps > 0; i++) {
 				const numStep = Math.ceil(restSteps / (workerCount - i));
@@ -1156,8 +1167,8 @@ var SIM = {
 				worker.postMessage(JSON.stringify({
 					dataInput, numStep, EQUIPBONUSDATA
 				}));
+				this.workers.push(worker);
 				// console.log(dataInput);
-				runningWorkers++;
 			}
 		}
 	},
