@@ -861,6 +861,12 @@ var UI_MAIN = Vue.createApp({
 		},
 		onclickCancel: function() {
 			SIM.cancelRun = true;
+			if(SIM.workers.length > 0) {
+			  while(SIM.workers.length > 0)
+				  SIM.workers.shift().terminate();
+			  this.canSim = true;
+			  this.showProgress = false;
+      }
 		},
 		
 		showNotice: function(txt) {
