@@ -3874,6 +3874,11 @@ function sim(F1,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing,noammo,BAPI,no
 		}
 	}
 		
+	currentEnemyAlives = alive2.length+subsalive2.length;
+	enemyDeads = enemyAlives - currentEnemyAlives;
+	enemyAlives = currentEnemyAlives;
+	phaseDeads[PHASES.FRIEND] += enemyDeads;
+	
 	//night battle
 	var didNB = false;
 	if ((doNB||NBonly) && alive1.length+subsalive1.length > 0 && hasAlive2) {
