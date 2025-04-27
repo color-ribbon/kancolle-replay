@@ -160,6 +160,7 @@ var SM = new SoundManager();
 if ($('#chkvoice')) $('#chkvoice').click(function() {
 	if (this.checked) SM.turnOnVoice();
 	else SM.turnOffVoice();
+	localStorage.setItem('chkvoice', this.checked);
 });
 
 function ShipG(id,side,hpmax) {
