@@ -990,9 +990,9 @@
 	</div>
 	
 	<div id="divOther">
-		<div><span class="header">{{$t('change_log_header')}}:</span> (★は独自カスタマイズ内容) </div>
+		<div style="margin-bottom: 10px"><span class="header">{{$t('change_log_header')}}:</span> (★は独自カスタマイズ内容) </div>
 		<template v-for="(obj,idx) in $i18n.messages[$i18n.locale].change_log">
-		<div v-if="idx < 5">
+		<div v-if="idx < 10">
 			{{obj.date}} - 
 			<i18n-t :keypath="'change_log[' + idx + '].txt'" scope="global">
 				<template v-for="(link,i) in obj.links" v-slot:['link'+i]>
@@ -1006,7 +1006,7 @@
 
 		<details>
 			<template v-for="(obj,idx) in $i18n.messages[$i18n.locale].change_log">
-			<div v-if="idx >= 5">
+			<div v-if="idx >= 10">
 				{{obj.date}} - <i18n-t :keypath="'change_log[' + idx + '].txt'" scope="global">
 					<template v-for="(link,i) in obj.links" v-slot:['link'+i]>
 						<a :href="$t('change_log[' + idx + '].links[' + i + '].url')" target="_blank">
