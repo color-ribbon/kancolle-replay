@@ -525,14 +525,21 @@
 					</div>
 				
 					<div>
-						<span class="subheader">★マイコスト設定</span>
-						＝ <img src="assets/stats/fuel.png" alt="燃料"> ✕ <input class="int4" type="number" min="0" step="1" v-model="settings.myCostFuel" size="4"/>
-						＋ <img src="assets/stats/ammo.png" alt="弾薬"> ✕ <input class="int4" type="number" min="0" step="1" v-model="settings.myCostAmmo" size="4"/>
-						＋ <img src="assets/stats/steel.png" alt="鋼材"> ✕ <input class="int4" type="number" min="0" step="1" v-model="settings.myCostSteel" size="4"/>
-						＋ <img src="assets/stats/baux.png" alt="ボーキ"> ✕ <input class="int4" type="number" min="0" step="1" v-model="settings.myCostBaux" size="4"/>
-						＋ <img src="assets/stats/bucket.png" alt="バケツ"> ✕ <input class="int4" type="number" min="0" step="1" v-model="settings.myCostBucket" size="4"/>
-						＋ <img src="assets/items/14.png" alt="ダメコン"> ✕ <input class="int4" type="number" min="0" step="1" v-model="settings.myCostDamecon" size="4"/>
-					  </div>
+						<div class="subheader">★マイコスト設定:</div>
+				    <img src="assets/stats/fuel.png" alt="燃料"> ✕ <input class="int4" type="number" min="0" step="1" v-model="settings.myCostFuel" size="4"/>
+				＋  <img src="assets/stats/ammo.png" alt="弾薬"> ✕ <input class="int4" type="number" min="0" step="1" v-model="settings.myCostAmmo" size="4"/>
+				＋  <img src="assets/stats/steel.png" alt="鋼材"> ✕ <input class="int4" type="number" min="0" step="1" v-model="settings.myCostSteel" size="4"/>
+				＋  <img src="assets/stats/baux.png" alt="ボーキ"> ✕ <input class="int4" type="number" min="0" step="1" v-model="settings.myCostBaux" size="4"/>
+				＋  <img src="assets/stats/bucket.png" alt="バケツ"> ✕ <input class="int4" type="number" min="0" step="1" v-model="settings.myCostBucket" size="4"/>
+				＋  <img src="assets/items/14.png" alt="ダメコン"> ✕ <input class="int4" type="number" min="0" step="1" v-model="settings.myCostDamecon" size="4"/>
+					</div>
+
+					<div>
+						<div class="subheader">ドロップ率設定:</div>
+				    <img src="assets/stats/S.png" alt="S"/><input class="int4" type="number" min="0" step="0.1" v-model="settings.dropS" size="4"/>%
+				    <img style="margin-left: 1ex;" src="assets/stats/A.png" alt="A"/><input class="int4" type="number" min="0" step="0.1" v-model="settings.dropA" size="4"/>%
+				    <img style="margin-left: 1ex;" src="assets/stats/B.png" alt="B"/><input class="int4" type="number" min="0" step="0.1" v-model="settings.dropB" size="4"/>%
+				  </div>
 				</div>
 			</div>
 
@@ -561,6 +568,7 @@
 					<label><input type="checkbox" v-model="settings.resultItems.cost"/>消費コスト</label>
 					<label><input type="checkbox" v-model="settings.resultItems.myCost"/>マイコスト</label>
 					<label><input type="checkbox" v-model="settings.resultItems.emptiedPlane"/>航空機全滅率</label>
+					<label><input type="checkbox" v-model="settings.resultItems.drop"/>ドロップ率</label>
 				</div>
 			</div>
 		</div>
@@ -680,6 +688,11 @@
 						<div v-if="settings.resultItems.bossDamage">
 							<div>ボスあたり削り</div>
 							<div>{{results.flagSunkHPBoss}}</div>
+						</div>
+
+						<div v-if="settings.resultItems.drop">
+							<div>出撃あたりドロップ:</div>
+							<div>{{results.drop}} %</div>
 						</div>
 
 						<div v-if="settings.resultItems.tp">
@@ -898,6 +911,22 @@
 						<tr><th><img src="assets/stats/bucket.png" :alt="$t('bucket')"/></th><td><span class="resultBold">{{results.bucketB}}</span></td></tr>
 						<tr v-show="results.damecon"><th><img src="assets/items/14.png" class="iconSlotitem" :alt="$t('repair_team')"/></th><td><span class="resultBold">{{results.dameconB}}</span></td></tr>
 						<tr v-show="results.underway"><th><img src="assets/items/35.png" class="iconSlotitem" :alt="$t('underway_resupply')"/></th><td><span class="resultBold">{{results.underwayB}}</span></td></tr>
+						</table>
+					</div>
+					<div class="resultCol" v-if="settings.resultItems.drop && results.drop > 0">
+						<div>
+							<span class="tooltip" :title="$t('avg_resource_tooltip')">ドロップあたり:</span>
+							<img @click="onclickCopyResults('drop')" src="assets/stats/content-copy-custom.png" class="copyIcons" :title="$t('copy_to_clipboard')"/>
+						</div>
+						<table>
+						<tr v-if="settings.resultItems.myCost"><th>★</th><td><span class="resultBold">{{results.myCostDrop}}</span></td></tr>
+						<tr><th><img src="assets/stats/fuel.png" :alt="$t('fuel')"/></th><td><span class="resultBold">{{results.fuelDrop}}</span></td></tr>
+						<tr><th><img src="assets/stats/ammo.png" :alt="$t('ammo')"/></th><td><span class="resultBold">{{results.ammoDrop}}</span></td></tr>
+						<tr><th><img src="assets/stats/steel.png" :alt="$t('steel')"/></th><td><span class="resultBold">{{results.steelDrop}}</span></td></tr>
+						<tr><th><img src="assets/stats/baux.png" :alt="$t('baux')"/></th><td><span class="resultBold">{{results.bauxDrop}}</span></td></tr>
+						<tr><th><img src="assets/stats/bucket.png" :alt="$t('bucket')"/></th><td><span class="resultBold">{{results.bucketDrop}}</span></td></tr>
+						<tr v-show="results.damecon"><th><img src="assets/items/14.png" class="iconSlotitem" :alt="$t('repair_team')"/></th><td><span class="resultBold">{{results.dameconDrop}}</span></td></tr>
+						<tr v-show="results.underway"><th><img src="assets/items/35.png" class="iconSlotitem" :alt="$t('underway_resupply')"/></th><td><span class="resultBold">{{results.underwayDrop}}</span></td></tr>
 						</table>
 					</div>
 					<div class="resultCol">

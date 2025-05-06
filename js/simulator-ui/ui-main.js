@@ -163,6 +163,10 @@ var UI_MAIN = Vue.createApp({
 			myCostBaux: 1,
 			myCostBucket: 200,
 			myCostDamecon: 1000,
+
+			dropS: 0,
+			dropA: 0,
+			dropB: 0,
 			
 			resultItems: {
 			  finalRank: true,
@@ -180,6 +184,7 @@ var UI_MAIN = Vue.createApp({
 				cost: true,
 				myCost: true,
 				emptiedPlane: true,
+				drop: true,
 			}
 		},
 		settingsFCF: {
@@ -237,6 +242,7 @@ var UI_MAIN = Vue.createApp({
 			showMore: false,
 			myCostA: 0, fuelA: 0, ammoA: 0, steelA: 0, bauxA: 0, bucketA: 0, dameconA: 0, underwayA: 0,
 			myCostB: 0, fuelB: 0, ammoB: 0, steelB: 0, bauxB: 0, bucketB: 0, dameconB: 0, underwayB: 0,
+			myCostDrop: 0, fuelDrop: 0, ammoDrop: 0, steelDrop: 0, bauxDrop: 0, bucketDrop: 0, dameconDrop: 0, underwayDrop: 0,
 			myCostHP: 0, fuelHP: 0, ammoHP: 0, steelHP: 0, bauxHP: 0, bucketHP: 0, dameconHP: 0, underwayHP: 0,
 			myCostTP: 0, fuelTP: 0, ammoTP: 0, steelTP: 0, bauxTP: 0, bucketTP: 0, dameconTP: 0, underwayTP: 0,
 			perHPRes: 1, perTPRes: 1,
@@ -245,6 +251,7 @@ var UI_MAIN = Vue.createApp({
 			totalNBs: 0, NBs: [],
 			phaseDeads: [],
 			totalPhaseDeads: [],
+			drop: 0,
 		},
 		
 		lang: 'ja',
@@ -678,7 +685,9 @@ var UI_MAIN = Vue.createApp({
 				B: (nodeLast.ranks.S + nodeLast.ranks.A + nodeLast.ranks.B),
 				HP: resultSim.totalGaugeDamage,
 				TP: resultSim.totalTransport,
+				Drop: ["S", "A", "B"].reduce((sum, r) => sum + nodeLast.ranks[r] * this.settings["drop" + r], 0) / 100
 			};
+			this.results.drop = formatNum(rates.Drop * 100 / totalNum);
 			resources.forEach(resource => {
 				for (const rateType in rates) {
 					const rate = rates[rateType];
@@ -2129,7 +2138,7 @@ var UI_RETREATSETTINGS = Vue.createApp({
 			UI_MAIN.settings.retreatOnChuuhaIfAll = +this.retreatIfAll;
 		},
 	},
-}).component('vmodal',COMMON.CMP_MODAL).use(COMMON.i18n).mount('#divRetreatSettings');;
+}).component('vmodal',COMMON.CMP_MODAL).use(COMMON.i18n).mount('#divRetreatSettings');
 	
 
 var UI_AUTOBONUS = Vue.createApp({
