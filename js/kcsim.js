@@ -398,6 +398,7 @@ var MECHANICS = {
 	kongouSpecialBuff3: true,
 	aaciMultiRoll: true,
 	panzerIIIBuff: true,
+	penaltyAfterBonus: false,
 };
 var NERFPTIMPS = false;
 var BREAKPTIMPS = false;
@@ -2115,9 +2116,11 @@ function accuracyAndCrit(ship,target,hit,evMod,evFlat,critMod,isPlanes,critBonus
 	var evade = (target.EV+Math.sqrt(target.LUK*2)) * evMod; //formation
 	var dodge = (evade>65)? 55+2*Math.sqrt(evade-65) : ((evade>40)? 40+3*Math.sqrt(evade-40) : evade);
 	dodge*=.01;
-	if (target.fuelleft < 7.5) dodge -= (7.5-target.fuelleft)/10;
-	if (evFlat) dodge += evFlat*.01;
-	dodge *= evModPost;
+	if(!MECHANICS.penaltyAfterBonus) {
+	  if (target.fuelleft < 7.5) dodge -= (7.5-target.fuelleft)/10;
+	  if (evFlat) dodge += evFlat*.01;
+	  dodge *= evModPost;
+	}
 	
 	if (target.bonusSpecialEv) {
 		let mod = 1;
@@ -2136,6 +2139,12 @@ function accuracyAndCrit(ship,target,hit,evMod,evFlat,critMod,isPlanes,critBonus
 	}
 	if (target.bonusEvFlat) {
 		dodge += target.bonusEvFlat*.01;
+	}
+	
+	if(MECHANICS.penaltyAfterBonus) {
+	  if (target.fuelleft < 7.5) dodge -= (7.5-target.fuelleft)/10;
+	  if (evFlat) dodge += evFlat*.01;
+	  dodge *= evModPost;
 	}
 	
 	if (C) simConsole.log('	hit: '+hit+' dodge: '+dodge + ' (' + evFlat + ')');
@@ -3878,7 +3887,7 @@ function sim(F1,F2,Fsupport,LBASwaves,doNB,NBonly,aironly,bombing,noammo,BAPI,no
 	enemyDeads = enemyAlives - currentEnemyAlives;
 	enemyAlives = currentEnemyAlives;
 	phaseDeads[PHASES.FRIEND] += enemyDeads;
-	
+
 	//night battle
 	var didNB = false;
 	if ((doNB||NBonly) && alive1.length+subsalive1.length > 0 && hasAlive2) {

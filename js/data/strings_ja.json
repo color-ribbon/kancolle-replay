@@ -1,6 +1,14 @@
 {
 	"change_log": [
 		{
+			"date": "2021-05-08",
+			"txt": "Mechanics: 燃料ペナルティを回避特攻計算後に行う設定追加 (回避 * 特攻 - 然ペナ)"
+		},
+		{
+			"date": "2025-05-06",
+			"txt": "★ドロップ率とドロップあたり消費表示追加"
+		},
+		{
 			"date": "2025-04-22",
 			"txt": "★並列シミュレーションによる高速化"
 		},
@@ -779,7 +787,8 @@
 		"eqBonusAA": "対空に装備特効適用",
 		"antiSubRaid": "対潜空襲",
 		"enable_ASWPlaneAir": "回転翼機と連絡機の制空への関与",
-		"enable_AACIRework": "対空CI修正(多重判定 & 優先度)"
+		"enable_AACIRework": "対空CI修正(多重判定 & 優先度)",
+		"penaltyAfterBonus": "燃料ペナルティ減算を特攻乗算後に行う"
 	},
 	"spotting": {
 		"DA": "連撃",

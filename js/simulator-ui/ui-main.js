@@ -46,6 +46,7 @@ var MECHANICS_LIST = [
 	{ key: 'antiSubRaid', name: 'Anti-Sub Air Raid', hide: true },
 	{ key: 'enable_ASWPlaneAir', name: 'Autogyro/Liaison Air Battle' },
 	{ key: 'enable_AACIRework', name: 'AACI Rework (Sequential Roll + New Priority)' },
+	{ key: 'penaltyAfterBonus', name: 'Calc fuel penalty after special bonus.' },
 ];
 
 var UI_MAIN = Vue.createApp({
